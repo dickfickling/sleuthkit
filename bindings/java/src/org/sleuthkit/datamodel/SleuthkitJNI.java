@@ -42,7 +42,7 @@ public class SleuthkitJNI {
 	
 	//load image
 	private static native long initAddImgNat(long db, String timezone) throws TskException;
-	private static native void runAddImgNat(long process, String[] imgPath, int splits) throws TskException; // if runAddImg finishes without being stopped, revertAddImg or commitAddImg MUST be called
+	private static native void runAddImgNat(long process, String[] imgPath, int splits, String timezone) throws TskException; // if runAddImg finishes without being stopped, revertAddImg or commitAddImg MUST be called
 	private static native void stopAddImgNat(long process) throws TskException;
 	private static native void revertAddImgNat(long process) throws TskException;
 	private static native long commitAddImgNat(long process) throws TskException;
@@ -157,7 +157,7 @@ public class SleuthkitJNI {
 				}
 				
 				autoDbPointer = initAddImgNat(caseDbPointer, timezone);
-				runAddImgNat(autoDbPointer, imgPath, imgPath.length);
+				runAddImgNat(autoDbPointer, imgPath, imgPath.length, timezone);
 			}
 			
 			/**

@@ -17,6 +17,7 @@
 #include <string.h>
 
 
+
 /**
  * @param a_db Database to add an image to
  * @param a_NSRLDb Database of "known" files (can be NULL)
@@ -152,6 +153,8 @@ uint8_t
 #endif
 }
 
+
+
 /**
  * Adds image details to the existing database tables.
  * @param img_ptrs The paths to the image splits
@@ -162,7 +165,7 @@ uint8_t
 TskAutoDb::addImageDetails(const char *const img_ptrs[], int a_num)
 {
     if (m_db->addImageInfo(m_img_info->itype, m_img_info->sector_size,
-            m_curImgId)) {
+            m_curImgId, m_curImgTZone)) {
         return 1;
     }
 
@@ -400,6 +403,12 @@ void
 
     m_stopped = true;
     // flag is checked every time processFile() is called
+}
+
+void
+TskAutoDb::setTz(const char * tzone)
+{
+    m_curImgTZone = string(tzone);
 }
 
 /**
