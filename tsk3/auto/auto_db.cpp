@@ -405,12 +405,6 @@ void
     // flag is checked every time processFile() is called
 }
 
-void
-TskAutoDb::setTz(const char * tzone)
-{
-    m_curImgTZone = string(tzone);
-}
-
 /**
  * Revert all changes after the process has run sucessfully.
  * @returns 1 on error, 0 on success
@@ -472,6 +466,15 @@ TskAutoDb::commitAddImage()
     }
 
     return m_curImgId;
+}
+
+/**
+ * Set the current image's timezone
+ */
+void
+TskAutoDb::setTz(const char * tzone)
+{
+    m_curImgTZone = string(tzone);
 }
 
 TSK_RETVAL_ENUM
