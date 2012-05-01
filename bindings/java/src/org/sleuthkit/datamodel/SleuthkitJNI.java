@@ -25,7 +25,6 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
-import java.util.logging.Logger;
 
 /**
  * Interfaces with the sleuthkit c/c++ libraries to read data from image files
@@ -504,7 +503,6 @@ public class SleuthkitJNI {
 		if (hasDaylight) {
 			result = result + second;
 		}
-		Logger.getAnonymousLogger().info(result);
 		return result;
 	}
 }
