@@ -19,8 +19,13 @@
 
 package org.sleuthkit.datamodel;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
+import java.util.logging.Logger;
 
 /**
  * Interfaces with the sleuthkit c/c++ libraries to read data from image files
@@ -156,7 +161,7 @@ public class SleuthkitJNI {
 					throw new TskException("AddImgProcess:run: AutoDB pointer is already set");
 				}
 				
-				autoDbPointer = initAddImgNat(caseDbPointer, timezone);
+				autoDbPointer = initAddImgNat(caseDbPointer, longToShort(timezone));
 				runAddImgNat(autoDbPointer, imgPath, imgPath.length, timezone);
 			}
 			
@@ -473,4 +478,33 @@ public class SleuthkitJNI {
 		return TskData.FileKnown.valueOf(hashDBLookup(hash));
 	}
 	
+	/**
+	 * Convert this timezone from long to short form
+	 * @param timezone the long form (e.g., America/New_York)
+	 * @return the short form (e.g., EST5EDT)
+	 */
+	private static String longToShort(String timezone) {
+		String result = "";
+
+		TimeZone zone = TimeZone.getTimeZone(timezone);
+		int offset = zone.getRawOffset() / 1000;
+		int hour = offset / 3600;
+		int min = (offset % 3600) / 60;
+
+		DateFormat dfm = new SimpleDateFormat("z");
+		dfm.setTimeZone(zone);
+		boolean hasDaylight = zone.useDaylightTime();
+		String first = dfm.format(new GregorianCalendar(2010, 1, 1).getTime()).substring(0, 3); // make it only 3 letters code
+		String second = dfm.format(new GregorianCalendar(2011, 6, 6).getTime()).substring(0, 3); // make it only 3 letters code
+		int mid = hour * -1;
+		result = first + Integer.toString(mid);
+		if (min != 0) {
+			result = result + ":" + (min < 10 ? "0" : "") + Integer.toString(min);
+		}
+		if (hasDaylight) {
+			result = result + second;
+		}
+		Logger.getAnonymousLogger().info(result);
+		return result;
+	}
 }
