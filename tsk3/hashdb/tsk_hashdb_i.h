@@ -57,6 +57,14 @@ extern "C" {
 #define TSK_HDB_IDX_HEAD_TYPE_STR	"00000000000000000000000000000000000000000"
 #define TSK_HDB_IDX_HEAD_NAME_STR	"00000000000000000000000000000000000000001"
 
+/**
+ * Properties for the sqlite hash database index
+ */
+#define IDX_SCHEMA_VER "Index Schema Version"
+#define IDX_VERSION_NUM "v1"
+#define IDX_HASHSET_NAME "Hashset Name"
+
+
 
 
     extern uint8_t tsk_hdb_idxinitialize(TSK_HDB_INFO *,

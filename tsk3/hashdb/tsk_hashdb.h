@@ -17,6 +17,8 @@
  * \defgroup hashdblib_cpp C++ Hash Database Classes
 */
 
+#include "sqlite3.h"
+
 #ifndef _TSK_HDB_H
 #define _TSK_HDB_H
 
@@ -116,7 +118,9 @@ extern "C" {
 
         FILE *hDb;              ///< File handle to database (always open)
         FILE *hIdxTmp;          ///< File handle to temp (unsorted) index file (only open during index creation)
-        FILE *hIdx;             ///< File handle to index (only open during lookups) 
+        FILE *hIdx;             ///< File handle to index (only open during lookups) (for backwards compatibility)
+        sqlite3 *hIdx_sqlite;   ///< Sqlite DB if index is using sqlite schema v1
+
 
         TSK_OFF_T idx_size;     ///< Size of index file
         uint16_t idx_off;       ///< Offset in index file to first index entry
